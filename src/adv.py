@@ -36,9 +36,15 @@ room['treasure'].s_to = room['narrow']
 
 # Give some colors
 
+
 def print_green(x): print("\033[92m {}\033[00m" .format(x))
+
+
 def print_purple(x): print("\033[95m {}\033[00m" .format(x))
+
+
 def print_cyan(x): print("\033[96m {}\033[00m" .format(x))
+
 
 # Items
 item = {'lightsaber': Item('lightsaber', 'luminescent blade of magnetically contained plasma'),
@@ -90,42 +96,97 @@ instructional_text = """
 #     print(player.items)
 
 
-def main():
-    while True:
-        print_green(instructional_text)
-        print(player)
-        print.print_current_room()
-        input_player_action()
+# def main():
+#     while True:
+#         print_green(instructional_text)
+#         print(player)
+#         player.print_current_room()
+#         input_player_action()
 
+
+# def input_player_action():
+#     input_message = '\nWhat would you like to do? [press [o] to see options] '
+#     key = input(input_message).split(' ')
+#     print(key)
+#     check_input(key)
+
+
+# def check_input(input):
+#     if len(input) == 1:
+#         key = input[0].lower()
+#         cardinal_directions = {'n': 'North',
+#                                's': 'South',
+#                                'e': 'East',
+#                                'w': 'West'}
+
+#         if key == 'q':
+#             print_cyan('\nSee you soon')
+#             print('\033[95m*** ' + player.name + ' ***\033[00m')
+#             exit()
+#         elif key == 'o':
+#             print_game_options()
+#         elif key == 'l':
+#             player.print_current_room()
+#             input_player_action()
+#         elif key == 'i':
+#             player.print_inventory()
+#             input_player_action()
+#         elif key in cardinal_directions.keys():
+#             print_green(f'You move {cardinal_directions[key]}.')
+#             player.move_room(key)
+#             player.print_current_room()
+#             input_player_action()
+#         else:
+#             bad_input()
+#     elif len(input) == 2:
+#         action = input[0].lower()
+#         obj = input[1].lower()
+#         global last_item
+#         if obj == 'it':
+#             obj = last_item
+#         last_item = obj
+
+#         if action == 'get' or action == 'take':
+#             player.get(obj)
+#             input_player_action()
+#         elif action == 'drop':
+#             player.drop(obj)
+#             input_player_action()
+#         else:
+#             bad_input()
+
+#     else:
+#         bad_input()
+
+def main():
+    # print_welcome_message()
+    player.print_current_room()
+    input_player_action()
 
 def input_player_action():
-    input_message = '\nWhat would you like to do? [press [o] to see options] '
+    input_message = '\nWhat would you like to do? [press o to see your options] '
     key = input(input_message).split(' ')
-    print(key)
     check_input(key)
 
 
-def check_input(input):
-    # if len(input) > 1:
-    #     bad_input()
 
+def check_input(input):
     if len(input) == 1:
         key = input[0].lower()
+
         cardinal_directions = {'n': 'North',
                                's': 'South',
                                'e': 'East',
                                'w': 'West'}
 
         if key == 'q':
-            print_cyan('\nSee you soon' )
-            print('\033[95m*** ' + player.name + ' ***\033[00m')
-            exit()
+            quit_game()
         elif key == 'o':
-            print_game_options()
+            print_options()
         elif key == 'l':
             player.print_current_room()
             input_player_action()
-        elif key == 'i':
+        elif key == 'i' or key == 'inventory':
             player.print_inventory()
             input_player_action()
         elif key in cardinal_directions.keys():
@@ -151,11 +212,12 @@ def check_input(input):
             input_player_action()
         else:
             bad_input()
+    else:
+        bad_input()
 
-    else: bad_input()
 
 
-def print_game_options():
+def print_options():
     print_cyan('n: go North')
     print_cyan('s: go South')
     print_cyan('e: go East')
@@ -167,9 +229,13 @@ def print_game_options():
     print_cyan('q: quit game')
     input_player_action()
 
+
 def bad_input():
     print('\nYour input is wrong!')
     input_player_action()
+
+def quit_game():
+    print_purple('\nWhat? Leaving so soon? Ok fine, BYEEEE.')
 
 
 main()
