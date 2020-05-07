@@ -2,6 +2,10 @@ from room import Room
 from player import Player
 from item import Item, LightSource
 
+from termcolor import colored, cprint
+
+# cprint('\nCoded by Eralp Kor', 'red', attrs=['blink'])
+
 # Declare all the rooms
 room = {
     'outside':  Room("Outside Cave Entrance",
@@ -88,7 +92,6 @@ instructional_text = """
 **** { n } North | { s } South |  { w } West | { e } East ****
 ************** Enter [q] to Exit the Adventure Game ***************
 """
-
 
 
 def main():

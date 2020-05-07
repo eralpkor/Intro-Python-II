@@ -1,5 +1,6 @@
 # Implement a class to hold room information. This should have name and
 # description attributes.
+import textwrap 
 def print_purple(x): print("\033[95m {}\033[00m" .format(x))
 
 class Room:
