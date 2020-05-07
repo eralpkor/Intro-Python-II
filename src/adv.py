@@ -3,10 +3,9 @@ from player import Player
 from item import Item, LightSource
 
 # Declare all the rooms
-
 room = {
     'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons", True),
+                     "North of you, the cave mount beckons.", True),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
 passages run north and east.""", False),
@@ -35,12 +34,44 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
+# Give some colors
+
+
+def print_green(x): print("\033[92m {}\033[00m" .format(x))
+
+
+def print_purple(x): print("\033[95m {}\033[00m" .format(x))
+
+
+def print_blue(x): print("\033[96m {}\033[00m" .format(x))
+
+
+# Items
+item = {'lightsaber': Item('lightsaber', 'luminescent blade of magnetically contained plasma'),
+        'nuts': Item('nuts', ' fruit composed of an inedible hard shell and a seed, which is generally edible'),
+        'gold': Item('gold', 'a box of GOLD NUGGETS'),
+        'flashlight': LightSource('flashlight', 'extreme high beam flashlight'),
+        'videotape': Item('videotape', 'magnetic tape used for storing video and usually sound in addition.')}
+
+room['outside'].items.append(item['lightsaber'])
+room['outside'].items.append(item['flashlight'])
+room['foyer'].items.append(item['nuts'])
+room['overlook'].items.append(item['gold'])
+room['narrow'].items.append(item['videotape'])
+
+last_item = ''
+
 #
 # Main
 #
 
 # Make a new player object that is currently in the 'outside' room.
-player = Player('PlayerOne', room['outside'])
+print_purple(
+    '\n############## Welcome to the great adventure game! ################\n'
+    .upper())
+# new player
+user_name = input("Hello there, please enter your name: ")
+player = Player(user_name, room['outside'])
 
 # Write a loop that:
 #
@@ -52,37 +83,26 @@ player = Player('PlayerOne', room['outside'])
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+instructional_text = """
+********************** Available Move Options *********************
+**** { n } North | { s } South |  { w } West | { e } East ****
+************** Enter [q] to Exit the Adventure Game ***************
+"""
 
-item = {'hat': Item('hat', 'a black knit beanie with the word covey and an image of a quail embroidered in white'),
-        'takeout': Item('takeout', 'a box of takeout Chinese food from JAN MEIIII'),
-        'nungets': Item('nungets', 'a box of CHIMKN NUNGETS'),
-        'quail': Item('quail', 'a mystical creature known for its ability to crush release canvases, be best overall in hackathons, and win Labs'),
-        'flashlight': LightSource('flashlight', 'a regular flashlight')}
-
-room['outside'].items.append(item['hat'])
-room['outside'].items.append(item['flashlight'])
-room['foyer'].items.append(item['takeout'])
-room['overlook'].items.append(item['nungets'])
-room['narrow'].items.append(item['quail'])
-
-
-last_item = ''
-
-
-def print_green(x): print("\033[92m {}\033[00m" .format(x))
-def print_purple(x): print("\033[95m {}\033[00m" .format(x))
-def print_blue(x): print("\033[96m {}\033[00m" .format(x))
 
 
 def main():
     print_welcome_message()
+    user = player.name.upper()
+    print_blue('Welcome ' + user)
     player.print_current_room()
     input_player_action()
 
 
 def print_welcome_message():
-    welcome_message = '\n** Welcome to Adventure Game! **'
-    print_purple(welcome_message)
+    # welcome_message = '\n** Welcome to Adventure Game! **'
+    
+    print_purple(instructional_text)
 
 
 def input_player_action():
@@ -107,7 +127,7 @@ def check_input(input):
         elif key == 'l':
             player.print_current_room()
             input_player_action()
-        elif key == 'i' or key == 'inventory':
+        elif key == 'i':
             player.print_inventory()
             input_player_action()
         elif key in cardinal_directions.keys():
@@ -138,25 +158,25 @@ def check_input(input):
 
 
 def print_options():
-    prCyan('n: go North')
-    prCyan('s: go South')
-    prCyan('e: go East')
-    prCyan('w: go West')
-    prCyan('l: check location')
-    prCyan('i: check inventory')
-    prCyan('get/take [item]: pick up item')
-    prCyan('drop [item]: drop item')
-    prCyan('q: quit game')
+    print_blue('n: go North')
+    print_blue('s: go South')
+    print_blue('e: go East')
+    print_blue('w: go West')
+    print_blue('l: check location')
+    print_blue('i: check inventory')
+    print_blue('get/take [item]: pick up item')
+    print_blue('drop [item]: drop item')
+    print_blue('q: quit game')
     input_player_action()
 
 
 def bad_input():
-    print("\nEww gross, you can't do that in here!")
+    print("\nYou can't do that in here!")
     input_player_action()
 
 
 def quit_game():
-    print_purple('\nWhat? Leaving so soon? Ok fine, BYEEEE.')
+    print_purple('\nHave a nice day!')
 
 
 main()
